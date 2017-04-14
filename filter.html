@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/angular.js"></script>
+</head>
+<body ng-app="app" ng-controller="ctrl">
+<input type="text" ng-model="txt "><br>
+数量：<input type="text" ng-model="quantity"><br>
+单价：<input type="text" ng-model="price">
+<p>总价：{{(quantity*price) | currency:'￥'}}</p>
+<ul>
+    <li ng-repeat="i in data | filter:txt">{{i}}</li>
+</ul>
+<div ng-controller="myctrl">
+    <input type="text" ng-model="name">
+    <p>{{name | revers}}</p>
+</div>
+
+<script>
+    var app=angular.module("app",[]);
+    app.controller("ctrl",function($scope){
+        $scope.data=[
+                "别后不知君远近。",
+                "触目凄凉多少闷。",
+                "渐行渐远渐无书，",
+                "水阔鱼沈何处问。",
+                "夜深风竹敲秋韵。",
+                "万叶千声皆是恨。",
+                "故欹单枕梦中寻，",
+                "梦又不成灯又烬。"
+        ];
+    })
+    app.controller("myctrl",function($scope){
+        $scope.name="sunshine";
+    })
+    app.filter("revers",function(){
+        return function(txt){
+            return txt.split("").reverse().join("");
+        }
+    })
+</script>
+</body>
+</html>

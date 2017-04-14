@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="js/jquery.js"></script>
+<script>
+   /* function dpaly(time){
+        var dfd= $.Deferred();
+        setTimeout(function(){
+            console.log("弄啥嘞");
+            dfd.resolve()//承诺执行之后
+            //dfd.reject("11111")//拒绝承诺之后
+        },time)
+        return dfd.promise()
+    }
+    dpaly(5000).fail(function(){
+        console.log("失败了")
+    }).done(function(){
+                console.log("成功了！！哈哈哈")
+            })*/
+   //并联
+   //当定义的所有任务承诺都执行完毕后，then或者done出数据
+   $.when($.ajax("list/sun1.json"), $.ajax("list/sun2.json")).then(
+           function(data1,data2){
+               var dd=data1[0];
+               var dd2=data2[0];
+               var req3 = $.ajax("list/sun3.json");
+               req3.done(function(data3){
+                   var dd3=data3.code;
+                   document.write(dd.code+"。"+dd2.code+"。"+dd3)
+               })
+           }
+   )
+
+
+
+
+   /* var req= $.ajax("list/sun1.json");
+    var req2=req.then(function(data){
+        return $.ajax("list/sun2.json")
+    })
+    req2.done(function(data){
+        console.log(data.code)
+    })*/
+   $.when($.ajax("list/sun1.json").then(function(data){
+//串联
+       //当承诺一执行完成后，再then一个新的promise对象，再新的promise对象中定义新的承诺然后done输出数据；
+        var d1=data.code;
+        var d2=$.ajax("list/sun2.json");
+        d2.done(function (data1) {
+           console.log(d1+"，"+data1.code)
+       })
+   }))
+</script>
+</body>
+</html>
